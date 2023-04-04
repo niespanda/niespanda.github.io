@@ -1,0 +1,307 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>AJP 任意文件读取\包含 | n1es</title>
+
+<link rel="shortcut icon" href="https://jndi.org/favicon.ico?v=1680602209837">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://jndi.org/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.bootcss.com/highlight.js/9.12.0/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            n1es
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="https://jndi.org/post/abouts" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1680602209837" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    AJP 任意文件读取\包含
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-04-03 ·
+                    </time>
+                    <span>
+                        4 min read
+                    </span>
+                    
+                        <a href="https://jndi.org/tag/O722D5Cgb/" class="post-tags">
+                            # Tomcat
+                        </a>
+                    
+                        <a href="https://jndi.org/tag/KYDXbcjSO/" class="post-tags">
+                            # Java
+                        </a>
+                    
+                        <a href="https://jndi.org/tag/MycQuQvsN/" class="post-tags">
+                            # Security
+                        </a>
+                    
+                        <a href="https://jndi.org/tag/89NQZSFd2/" class="post-tags">
+                            # Midware
+                        </a>
+                    
+                        <a href="https://jndi.org/tag/xSgtp2RhA/" class="post-tags">
+                            # 复现
+                        </a>
+                    
+                        <a href="https://jndi.org/tag/hirdhZLo5/" class="post-tags">
+                            # 分析
+                        </a>
+                    
+                </div>
+            
+              <img class="post-feature-image" src="https://jndi.org/post-images/iBOP_UdPF.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <p>CVE-2020-1938 - Ajp任意文件读取\包含</p>
+<h2 id="0x01漏洞描述">0X01漏洞描述</h2>
+<p>Apache Tomcat AJP协议（默认8009端口）由于存在实现缺陷导致相关参数可控，攻击者利用该漏洞可通过构造特定参数，读取服务器webapp目录下的任意文件。若服务器端同时存在文件上传功能，攻击者可进一步结合文件包含实现远程代码的执行。</p>
+<h2 id="0x02-影响版本">0X02 影响版本</h2>
+<pre><code>Tomcat 6.*
+Tomcat 7.* &lt; 7.0.100
+Tomcat 8.* &lt; 8.5.51
+Tomcat 9.* &lt; 9.0.31
+</code></pre>
+<h2 id="0x03-漏洞原理">0X03 漏洞原理</h2>
+<p>在Ajp接受到数据后， 先进行<code>prepareRequest()</code>获取request属性，然后<code>getAdapter().service(request, response)</code>根据web路由发送servlet对象处理。</p>
+<p>其中以<code>*.jsp</code>, <code>*.jspx</code>结尾的<code>URI</code>会经<code>JspServlet</code>处理，而其他请求资源使用<code>DefaultServlet</code>处理。</p>
+<p>在处理过程中使用了用户可控的request 属性，然后造成文件读取，及文件包含漏洞（需要上传文件）。</p>
+<h2 id="0x04-漏洞复现">0x04 漏洞复现</h2>
+<h3 id="文件读取">文件读取：</h3>
+<p>1、Tomcat 处理外部请求时经由 org/apache/coyote/AbstractProtocol 抽象类 中调用了Ajp和http协议的公共接口  <code>processor.process(wrapper)</code> 方法，对传入的socket请求协议分发处理。</p>
+<figure data-type="image" tabindex="1"><img src="https://jndi.org/post-images/image-20220326195538764.png" alt="image-20220326195538764" loading="lazy"></figure>
+<p>2、漏洞关键触发点<code>prepareRequest</code>方法：</p>
+<p>在<code>org.apache.coyote.ajp.AbstractAjpProcessor#prepareRequest</code>方法中恶意攻击者可以通过控制请求内容，为request对象任意的设置属性。如果传入的attribute不满足前面的条件，则会调用setAttribute存入我们传入的属性。</p>
+<figure data-type="image" tabindex="2"><img src="https://jndi.org/post-images/image-20220326162518726.png" alt="image-20220326162518726" loading="lazy"></figure>
+<p>3、存入设置好属性，<code>getAdapter().service(request, response);</code> 发送给HTTP servlet处理</p>
+<figure data-type="image" tabindex="3"><img src="https://jndi.org/post-images/image-20220326201258149.png" alt="image-20220326201258149" loading="lazy"></figure>
+<figure data-type="image" tabindex="4"><img src="https://jndi.org/post-images/image-20220326202030499.png" alt="image-20220326202030499" loading="lazy"></figure>
+<p>4、<code>HttpServlet</code>类<code>service()</code>方法处理时，调用了doGet()方法，<code>HttpServlet.doGet()</code>方法有众多的子实现，怎么保证调用到我们需要的<code>doGet()</code>方法。</p>
+<figure data-type="image" tabindex="5"><img src="https://jndi.org/post-images/image-20220326203053025.png" alt="image-20220326203053025" loading="lazy"></figure>
+<p>查看tomcat#web路由配置文件发现(<code>$CATALINA_BASE/conf/web.xml</code>)， url 为<code>/开头</code>default路由，对应的servlet：<code>org.apache.catalina.servlets.DefaultServlet</code>，正是我们需要进入利用点，第二条则是处理<code>*.jsp，*.jspx</code>的路由，对应servle，<code>org.apache.jasper.servlet.JspServlet</code>。</p>
+<figure data-type="image" tabindex="6"><img src="https://jndi.org/post-images/image-20220326205039954.png" alt="image-20220326204936520" loading="lazy"></figure>
+<p>5、<code>org.apache.catalina.servlets.DefaultServlet#serveResource</code>  方法使用<code>getRelativePath</code>获取路径</p>
+<figure data-type="image" tabindex="7"><img src="https://jndi.org/post-images/image-20220326205239762.png" alt="image-20220326205239762" loading="lazy"></figure>
+<figure data-type="image" tabindex="8"><img src="https://jndi.org/post-images/image-20220326205535497.png" alt="image-20220326205535497" loading="lazy"></figure>
+<p>在获取路径时，对<code>Attribute</code>做了判断，如果<code>javax.servlet.include.request_uri</code>属性不为空的话，就会取出<code>javax.servlet.include.path_info</code>属性的值，作为结果返回，我们设置的值为<code>/WEB-INF/web.xml</code>,最终<code>getRelativePath</code>返回的值就构造为：<code>//WEB-INF/web.xml</code>。</p>
+<figure data-type="image" tabindex="9"><img src="https://jndi.org/post-images/image-20220326210305333.png" alt="image-20220326210305333" loading="lazy"></figure>
+<p>最后结果被带入到<code>getResources</code>方法中获取路径指向的资源。如果资源存在则返回对应资源文件的内容。</p>
+<figure data-type="image" tabindex="10"><img src="https://jndi.org/post-images/image-20220326210844514.png" alt="image-20220326210844514" loading="lazy"></figure>
+<h3 id="文件包含">文件包含：</h3>
+<p>接上文继续研究JspServlet路由，我们尝试触发该路由，包含我们上传的文件，来达到RCE的目的。</p>
+<p>首先假设服务环境中存在一个上传点，并且我们知道它在web目录中的位置。我们就可以把代码写入到该文件，上传到web目录。</p>
+<p>例如我上传的点为:<code>/WEB-INF/rce.xml</code>,写入一个弹出计算器的代码示例。</p>
+<figure data-type="image" tabindex="11"><img src="https://jndi.org/post-images/image-20220326234253055.png" alt="image-20220326234253055" loading="lazy"></figure>
+<p>修改攻击脚本路径 <code>asdf</code> 为<code>1.jsp</code>,触发Jsp路由处理请求，进入<code>org/apache/jasper/servlet/JspServlet</code>处理传入的请求，<code>service</code>方法取出<code>attribute</code>中的路径，赋值到jspUri。</p>
+<figure data-type="image" tabindex="12"><img src="https://jndi.org/post-images/image-20220326225516949.png" alt="image-20220326225516949" loading="lazy"></figure>
+<p>调用serviceJspFile执行JspUri路径指定的资源文件。</p>
+<figure data-type="image" tabindex="13"><img src="https://jndi.org/post-images/image-20220326230928081.png" alt="image-20220326230928081" loading="lazy"></figure>
+<p>如果从当前<code>JspRuntimeContext</code>上下文中找不到我们传入路径的<code>JspServletWrapper</code>,<code>serviceJspFile</code>方法就会帮我们实例化一个JspUri路径的<code>JspServletWrapper</code>，并添加到<code>JspRuntimeContext</code>中。</p>
+<figure data-type="image" tabindex="14"><img src="https://jndi.org/post-images/image-20220326231345003.png" alt="image-20220326231345003" loading="lazy"></figure>
+<p>然后进入service方法后会编译我们添加到上下文中的内容，最终通过<code>_jspService()</code> 方法执行我们传入的代码，实现代码执行。</p>
+<figure data-type="image" tabindex="15"><img src="https://jndi.org/post-images/image-20220326233055837.png" alt="image-20220326233055837" loading="lazy"></figure>
+<figure data-type="image" tabindex="16"><img src="https://jndi.org/post-images/image-20220326233335653.png" alt="image-20220326233335653" loading="lazy"></figure>
+<figure data-type="image" tabindex="17"><img src="https://jndi.org/post-images/image-20220326233506156.png" alt="image-20220326233506156" loading="lazy"></figure>
+<figure data-type="image" tabindex="18"><img src="https://jndi.org/post-images/image-20220326233822322.png" alt="image-20220326233822322" loading="lazy"></figure>
+<h2 id="0x05-漏洞危害">0X05 漏洞危害</h2>
+<p>攻击者可以读取 Tomcat所有 webapp目录下的任意文件。</p>
+<p>此外如果网站应用提供文件上传的功能，攻击者可以先向服务端上传一个内容含有恶意 JSP 脚本代码的文件(上传的文件本身可以是任意类型的文件，比如图片、纯文本文件等)，然后利用漏洞进行文件包含，从而达到代码执行的危害。</p>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li>
+<ul>
+<li><a href="#0x01%E6%BC%8F%E6%B4%9E%E6%8F%8F%E8%BF%B0">0X01漏洞描述</a></li>
+<li><a href="#0x02-%E5%BD%B1%E5%93%8D%E7%89%88%E6%9C%AC">0X02 影响版本</a></li>
+<li><a href="#0x03-%E6%BC%8F%E6%B4%9E%E5%8E%9F%E7%90%86">0X03 漏洞原理</a></li>
+<li><a href="#0x04-%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0">0x04 漏洞复现</a>
+<ul>
+<li><a href="#%E6%96%87%E4%BB%B6%E8%AF%BB%E5%8F%96">文件读取：</a></li>
+<li><a href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB">文件包含：</a></li>
+</ul>
+</li>
+<li><a href="#0x05-%E6%BC%8F%E6%B4%9E%E5%8D%B1%E5%AE%B3">0X05 漏洞危害</a></li>
+</ul>
+</li>
+</ul>
+
+              </div>
+            </div>
+            </article>
+        </div>
+
+        
+
+        
+
+        
+            
+                <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.css">
+<script src="https://cdn.jsdelivr.net/npm/gitalk/dist/gitalk.min.js"></script>
+<script>
+    // md5.min.js
+    !function(n){
+        "use strict";
+        function d(n,t){var r=(65535&n)+(65535&t);return(n>>16)+(t>>16)+(r>>16)<<16|65535&r}
+        function f(n,t,r,e,o,u){return d((c=d(d(t,n),d(e,u)))<<(f=o)|c>>>32-f,r);var c,f}
+        function l(n,t,r,e,o,u,c){return f(t&r|~t&e,n,t,o,u,c)}
+        function v(n,t,r,e,o,u,c){return f(t&e|r&~e,n,t,o,u,c)}
+        function g(n,t,r,e,o,u,c){return f(t^r^e,n,t,o,u,c)}
+        function m(n,t,r,e,o,u,c){return f(r^(t|~e),n,t,o,u,c)}
+        function i(n,t){var r,e,o,u,c;n[t>>5]|=128<<t%32,n[14+(t+64>>>9<<4)]=t;var f=1732584193,i=-271733879,a=-1732584194,h=271733878;for(r=0;r<n.length;r+=16)f=l(e=f,o=i,u=a,c=h,n[r],7,-680876936),h=l(h,f,i,a,n[r+1],12,-389564586),a=l(a,h,f,i,n[r+2],17,606105819),i=l(i,a,h,f,n[r+3],22,-1044525330),f=l(f,i,a,h,n[r+4],7,-176418897),h=l(h,f,i,a,n[r+5],12,1200080426),a=l(a,h,f,i,n[r+6],17,-1473231341),i=l(i,a,h,f,n[r+7],22,-45705983),f=l(f,i,a,h,n[r+8],7,1770035416),h=l(h,f,i,a,n[r+9],12,-1958414417),a=l(a,h,f,i,n[r+10],17,-42063),i=l(i,a,h,f,n[r+11],22,-1990404162),f=l(f,i,a,h,n[r+12],7,1804603682),h=l(h,f,i,a,n[r+13],12,-40341101),a=l(a,h,f,i,n[r+14],17,-1502002290),f=v(f,i=l(i,a,h,f,n[r+15],22,1236535329),a,h,n[r+1],5,-165796510),h=v(h,f,i,a,n[r+6],9,-1069501632),a=v(a,h,f,i,n[r+11],14,643717713),i=v(i,a,h,f,n[r],20,-373897302),f=v(f,i,a,h,n[r+5],5,-701558691),h=v(h,f,i,a,n[r+10],9,38016083),a=v(a,h,f,i,n[r+15],14,-660478335),i=v(i,a,h,f,n[r+4],20,-405537848),f=v(f,i,a,h,n[r+9],5,568446438),h=v(h,f,i,a,n[r+14],9,-1019803690),a=v(a,h,f,i,n[r+3],14,-187363961),i=v(i,a,h,f,n[r+8],20,1163531501),f=v(f,i,a,h,n[r+13],5,-1444681467),h=v(h,f,i,a,n[r+2],9,-51403784),a=v(a,h,f,i,n[r+7],14,1735328473),f=g(f,i=v(i,a,h,f,n[r+12],20,-1926607734),a,h,n[r+5],4,-378558),h=g(h,f,i,a,n[r+8],11,-2022574463),a=g(a,h,f,i,n[r+11],16,1839030562),i=g(i,a,h,f,n[r+14],23,-35309556),f=g(f,i,a,h,n[r+1],4,-1530992060),h=g(h,f,i,a,n[r+4],11,1272893353),a=g(a,h,f,i,n[r+7],16,-155497632),i=g(i,a,h,f,n[r+10],23,-1094730640),f=g(f,i,a,h,n[r+13],4,681279174),h=g(h,f,i,a,n[r],11,-358537222),a=g(a,h,f,i,n[r+3],16,-722521979),i=g(i,a,h,f,n[r+6],23,76029189),f=g(f,i,a,h,n[r+9],4,-640364487),h=g(h,f,i,a,n[r+12],11,-421815835),a=g(a,h,f,i,n[r+15],16,530742520),f=m(f,i=g(i,a,h,f,n[r+2],23,-995338651),a,h,n[r],6,-198630844),h=m(h,f,i,a,n[r+7],10,1126891415),a=m(a,h,f,i,n[r+14],15,-1416354905),i=m(i,a,h,f,n[r+5],21,-57434055),f=m(f,i,a,h,n[r+12],6,1700485571),h=m(h,f,i,a,n[r+3],10,-1894986606),a=m(a,h,f,i,n[r+10],15,-1051523),i=m(i,a,h,f,n[r+1],21,-2054922799),f=m(f,i,a,h,n[r+8],6,1873313359),h=m(h,f,i,a,n[r+15],10,-30611744),a=m(a,h,f,i,n[r+6],15,-1560198380),i=m(i,a,h,f,n[r+13],21,1309151649),f=m(f,i,a,h,n[r+4],6,-145523070),h=m(h,f,i,a,n[r+11],10,-1120210379),a=m(a,h,f,i,n[r+2],15,718787259),i=m(i,a,h,f,n[r+9],21,-343485551),f=d(f,e),i=d(i,o),a=d(a,u),h=d(h,c);return[f,i,a,h]}
+        function a(n){var t,r="",e=32*n.length;for(t=0;t<e;t+=8)r+=String.fromCharCode(n[t>>5]>>>t%32&255);return r}
+        function h(n){var t,r=[];for(r[(n.length>>2)-1]=void 0,t=0;t<r.length;t+=1)r[t]=0;var e=8*n.length;for(t=0;t<e;t+=8)r[t>>5]|=(255&n.charCodeAt(t/8))<<t%32;return r}
+        function e(n){var t,r,e="0123456789abcdef",o="";for(r=0;r<n.length;r+=1)t=n.charCodeAt(r),o+=e.charAt(t>>>4&15)+e.charAt(15&t);return o}
+        function r(n){return unescape(encodeURIComponent(n))}
+        function o(n){return a(i(h(t=r(n)),8*t.length));var t}
+        function u(n,t){return function(n,t){var r,e,o=h(n),u=[],c=[];for(u[15]=c[15]=void 0,16<o.length&&(o=i(o,8*n.length)),r=0;r<16;r+=1)u[r]=909522486^o[r],c[r]=1549556828^o[r];return e=i(u.concat(h(t)),512+8*t.length),a(i(c.concat(e),640))}(r(n),r(t))}
+        function t(n,t,r){return t?r?u(t,n):e(u(t,n)):r?o(n):e(o(n))}
+        "function"==typeof define&&define.amd?define(function(){return t}):"object"==typeof module&&module.exports?module.exports=t:n.md5=t;
+    }(this);
+</script>
+
+
+<div id="gitalk-container"></div>
+
+<script>
+
+  var gitalk = new Gitalk({
+    clientID: '4d3423e48bbe96f523ec',
+    clientSecret: 'af6d0d215def347aa32591adde071875bd456f3f',
+    repo: 'niespanda.github.io',
+    owner: 'niespanda',
+    admin: ['niespanda'],
+    id: md5(location.pathname),      // Ensure uniqueness and length less than 50
+    distractionFreeMode: false       // Facebook-like distraction free mode
+  })
+
+  gitalk.render('gitalk-container')
+
+</script>
+
+            
+
+            
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">Shining is not the sun's patent, you also may shine.</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/niespanda/" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+                <a href="https://twitter.com/niespanda" target="_blank">
+                    <i class="fab fa-twitter gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        认清差距、低头赶路
+    </div>
+    <div>
+        Powered by <a
+                href="https://github.com/niespanda" target="_blank">n1es | <a href="https://jndi.org/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

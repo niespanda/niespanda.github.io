@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://jndi.org</id>
+    <title>n1es</title>
+    <updated>2023-04-04T09:57:31.252Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://jndi.org"/>
+    <link rel="self" href="https://jndi.org/atom.xml"/>
+    <subtitle>Shining is not the sun&apos;s patent, you also may shine.</subtitle>
+    <logo>https://jndi.org/images/avatar.png</logo>
+    <icon>https://jndi.org/favicon.ico</icon>
+    <rights>All rights reserved 2023, n1es</rights>
+    <entry>
+        <title type="html"><![CDATA[AJP 任意文件读取\包含]]></title>
+        <id>https://jndi.org/post/iBOP_UdPF/</id>
+        <link href="https://jndi.org/post/iBOP_UdPF/">
+        </link>
+        <updated>2023-04-03T06:42:31.000Z</updated>
+    </entry>
+</feed>
